@@ -12,6 +12,6 @@ CREATE TABLE animal_photos (
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username character varying(255),
-    user_password character varying(255),
-    email character varying(255)
+    user_password character varying(255) NOT NULL,
+    email character varying(255) NOT NULL UNIQUE
 );

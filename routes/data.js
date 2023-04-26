@@ -3,7 +3,7 @@ const express = require('express');
 const pool = require("../routes/services/db")
 const dataRouter = express.Router();
 
-dataRouter.post("/category", AuthService.verifyToken, async (req, res) => {
+dataRouter.put("/category", AuthService.verifyToken, async (req, res) => {
     try {
       const { category } = req.body;
       const result = await pool.query(
@@ -40,7 +40,7 @@ dataRouter.post("/category", AuthService.verifyToken, async (req, res) => {
   
   dataRouter.delete("/category/:id", AuthService.verifyToken, async (req, res) => {
     try {
-      const { id } = req.params;
+      const  id = req.params.id;
       const result = await pool.query("DELETE FROM animal_categories WHERE id = $1", [id]);
       res.json({"DeleteRowCount":result.rowCount});
     } catch (err) {
