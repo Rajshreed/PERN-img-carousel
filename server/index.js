@@ -8,8 +8,8 @@ const cors = require("cors");
 //middleware
 app.use(cors());
 app.use(express.json()); //req.body
-app.use('/auth',authRouter)
-app.use('/data',dataRouter)
+app.use('/api/auth',authRouter)
+app.use('/api/data',dataRouter)
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

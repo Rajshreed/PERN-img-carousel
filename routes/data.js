@@ -23,7 +23,7 @@ dataRouter.put("/category", AuthService.verifyToken, async (req, res) => {
       const categories = await pool.query("SELECT * FROM animal_categories");
       res.json(categories.rows);
     } catch (err) {
-      console.error(err.message);
+      console.error("Error in block-get all categories", err.message);
     }
   });
   
@@ -51,7 +51,7 @@ dataRouter.put("/category", AuthService.verifyToken, async (req, res) => {
   dataRouter.get("/photos/:id", AuthService.verifyToken, async (req, res) => {
     try {
       const { id } = req.params;
-      const result = await pool.query("SELECT * FROM animal_photos WHERE category_id = $1", [id]);
+      const result = await pool.query("SELECT photo_url FROM animal_photos WHERE category_id = $1", [id]);
         res.json(result.rows);
     } catch (err) {
       console.error(err.message);

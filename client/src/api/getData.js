@@ -35,14 +35,35 @@ export const authenticateUser = async (emailid, password) => {
   
 };
 
-export const apiGetPhotos = async (category_id) => {
+export const apiGetPhotos = async (buttons) => {
+  try {
+    const catIdList = buttons.map(button => {
+      if (button.isToggled === true) {
+        return button.id }});
+    var photosArr = [];
+    for (let i=0; i< catIdList.length;i++){
+      if(catIdList[i]){
+        let photos = await client.get('/data/photos/'+String(catIdList[i]));
+        for (let j=0;j<photos.data.length;j++){
+          photosArr.push(photos.data[j].photo_url);  
+        }
+      }
+    }
+    console.log("ARRAY=",photosArr);
+    return {"sts":"success", "data":photosArr};
+  } catch (err) {
+   return {"sts":"error", "data":err};
+  }
+};
+
+/*export const apiGetPhotos = async (category_id) => {
   try {
     let photos = await client.get('/data/photos/'+String(category_id));
     return {"sts":"success", "data":photos.data};
   } catch (err) {
    return {"sts":"error", "data":err};
   }
-};
+};*/
 export const apiGetCategories = async () => {
   try {
     let result = await client.get('/data/categories');
