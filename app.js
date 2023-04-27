@@ -4,8 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 
 const cors = require("cors");
-//middleware
-app.use(cors());
 
 const authRouter = require('./routes/auth');
 const dataRouter = require('./routes/data');
@@ -13,6 +11,8 @@ const dataRouter = require('./routes/data');
 const createApp = (logger) => {
 const app = express();
 
+//middleware
+  app.use(cors());
   app.use(expressWinston.logger({ winstonInstance: logger }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
@@ -22,9 +22,14 @@ const app = express();
   const buildPath = path.normalize(path.join(__dirname, './client/build'));
   
   app.use(express.static(buildPath));
+  app.use(express.static("public"));
 
-  app.use('/auth', authRouter);
-  app.use('/data', dataRouter);
+  app.use('/api/auth', authRouter);
+  app.use('/api/data', dataRouter);
+
+  app.use((req, res, next) => {
+    res.sendFile(path.join(__dirname, ".", "/client/build", "index.html"));
+  });
 
   // catch 404 and forward to error handler
   app.use((req, res) => {
